@@ -8,4 +8,8 @@ permission:
   killdeathratio.kdr:
     default: true
   killdeathratio.seekdr:
-    efault: true
+    default: true
+  killdeathratio.killleaderboard:
+    default: true
+  killdeathratio.deathleaderboard:
+    default: true

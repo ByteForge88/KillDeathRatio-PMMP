@@ -122,4 +122,52 @@ class KDR {
         
         return $kills / $deaths;
     }
+    
+    public function getTopKills(int $limit) : array{
+        $stmt = Database::getInstance()->getSQL()->prepare("SELECT player, kills FROM kdr ORDER BY balance DESC LIMIT :limit");
+        
+        try {
+            $stmt->bindValue(":limit", $limit, SQLITE3_INTEGER);
+            
+            $result = $stmt->execute();
+            $data = [];
+            
+            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                $data[] = [
+                    "player" => $row["player"],
+                    "kills" => (int) $row["kills"]
+                ];
+            }
+            
+            $result->finalize();
+            
+            return $data;
+        } finally {
+            $stmt->close();
+        }
+    }
+    
+    public function getTopDeaths(int $limit) : array{
+        $stmt = Database::getInstance()->getSQL()->prepare("SELECT player, deaths FROM kdr ORDER BY balance DESC LIMIT :limit");
+        
+        try {
+            $stmt->bindValue(":limit", $limit, SQLITE3_INTEGER);
+            
+            $result = $stmt->execute();
+            $data = [];
+            
+            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                $data[] = [
+                    "player" => $row["player"],
+                    "deaths" => (int) $row["deaths"]
+                ];
+            }
+            
+            $result->finalize();
+            
+            return $data;
+        } finally {
+            $stmt->close();
+        }
+    }
 }
