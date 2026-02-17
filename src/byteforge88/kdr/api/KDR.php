@@ -10,6 +10,9 @@ use pocketmine\utils\SingletonTrait;
 
 use byteforge88\kdr\database\Database;
 
+use byteforge88\kdr\event\UpdateKillEvent;
+use byteforge88\kdr\event\UpdateDeathEvent;
+
 class KDR {
     use SingletonTrait;
     
@@ -50,6 +53,7 @@ class KDR {
     
     public function addKill(Player|string $player) : void{
         $player = $player instanceof Player ? $player->getName() : $player;
+        $e = new UpdateKillEvent($player);
         $stmt = Database::getInstance()->getSQL()->prepare("UPDATE kdr SET kills = kills + 1 WHERE player = player;");
         
         try {
@@ -60,6 +64,7 @@ class KDR {
             $result->finalize();
         } finally {
             $stmt->close();
+            $e->call();
         }
     }
     
@@ -83,6 +88,7 @@ class KDR {
     
     public function addDeath(Player|string $player) : void{
         $player = $player instanceof Player ? $player->getName() : $player;
+        $e = new UpdateDeathEvent($player);
         $stmt = Database::getInstance()->getSQL()->prepare("UPDATE kdr SET deaths = deaths + 1 WHERE player = :player;");
         
         try {
@@ -93,6 +99,7 @@ class KDR {
             $result->finalize();
         } finally {
             $stmt->close();
+            $e->call();
         }
     }
     

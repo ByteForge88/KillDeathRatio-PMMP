@@ -4,7 +4,7 @@ author: ByteForge88
 api: 5.41.0
 main: byteforge88\kdr\Core
 
-permission:
+permissions:
   killdeathratio.kdr:
     default: true
   killdeathratio.seekdr:
@@ -13,3 +13,7 @@ permission:
     default: true
   killdeathratio.deathleaderboard:
     default: true
+  killdeathratio.killfloatingtext:
+    default: op
+  killdeathratio.deathfloatingtext:
+    default: op

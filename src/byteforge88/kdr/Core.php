@@ -12,6 +12,8 @@ use byteforge88\kdr\command\KDRCommand;
 use byteforge88\kdr\command\SeeKDRCommand;
 use byteforge88\kdr\command\leaderboard\KillsLeaderboard;
 use byteforge88\kdr\command\leaderboard\DeathsLeaderboard;
+use byteforge88\kdr\command\leaderboard\floatingtext\KillLBFloatingTextCommand;
+use byteforge88\kdr\command\leaderboard\floatingtext\DeathLBFloatingTextCommand;
 
 use CortexPE\Commando\PacketHooker;
 
@@ -36,6 +38,8 @@ class Core extends PluginBase {
             new SeeKDRCommand($this, "seekdr", "View someone's KDR stats"),
             new KillsLeaderboard($this, "topkills", "View the top 10 killer's"),
             new DeathsLeaderboard($this, "topdeaths", "View the top 10 death's"),
+            new KillLBFloatingTextCommand($this, "killfloatingtext", "Spawn in a FT with the top 10 killers", ["kft"]),
+            new DeathLBFloatingTextCommand($this, "deathfloatingtext", "Spawn in a FT with the top 10 deaths", ["dft"])
         ]);
     }
     
