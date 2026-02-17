@@ -1,0 +1,19 @@
+{
+    "name": "byteforge88/killdeathratio",
+    "description": "Add a KDR system to your PocketMine-MP server",
+    "type": "project",
+    "license": "LGPL-3.0",
+    "autoload": {
+        "psr-4": {
+            "Byteforge88\\Killdeathratio\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ByteForge88"
+        }
+    ],
+    "require": {
+        "cortexpe/commando": "*"
+    }
+}

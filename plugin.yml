@@ -1,0 +1,11 @@
+name: KillDeathRatio
+version: 1.0.0
+author: ByteForge88
+api: 5.41.0
+main: byteforge88\kdr\Core
+
+permission:
+  killdeathratio.kdr:
+    default: true
+  killdeathratio.seekdr:
+    efault: true
