@@ -1,0 +1,12 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/ByteForge88/KillDeathRatio-PMMP
+build-by-default: true
+branches:
+- main
+projects:
+  KillDeathRatio-PMMP:
+    path: ""
+    libs:
+       - src: CortexPE/Commando/Commando
+         version: ^3.2.0
+    lint: false
+...
