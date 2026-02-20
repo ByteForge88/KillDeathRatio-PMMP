@@ -22,7 +22,7 @@ class Database {
         
         $this->sql = new SQLite3($folder . "database.db");
         
-        $this->sql()->exec("CREATE TABLE IF NOT EXISTS kdr (player TEXT PRIMARY KEY, kills INT, deaths INT);");
+        $this->sql()->exec("CREATE TABLE IF NOT EXISTS kdr (player TEXT PRIMARY KEY, kills INT, killstreak INT, deaths INT);");
     }
     
     public function close() : void{

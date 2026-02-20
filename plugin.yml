@@ -13,7 +13,11 @@ permissions:
     default: true
   killdeathratio.deathleaderboard:
     default: true
+  killdeathratio.killstreakleaderboard:
+    default: true
   killdeathratio.killfloatingtext:
+    default: op
+  killdeathratio.killstreakfloatingtext:
     default: op
   killdeathratio.deathfloatingtext:
     default: op

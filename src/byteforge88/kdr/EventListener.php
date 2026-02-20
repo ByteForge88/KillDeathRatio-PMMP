@@ -18,14 +18,12 @@ use pocketmine\Server;
 
 use byteforge88\kdr\api\KDR;
 use byteforge88\kdr\event\UpdateKillEvent;
+use byteforge88\kdr\event\UpdateKillstreakEvent;
 use byteforge88\kdr\event\UpdateDeathEvent;
 use byteforge88\kdr\floatingtext\FloatingText;
 use byteforge88\kdr\floatingtext\KillFloatingText;
+use byteforge88\kdr\floatingtext\KillstreakFloatingText;
 use byteforge88\kdr\floatingtext\DeathFloatingText;
-
-use byteforge88\kdr\scoreboard\Scoreboard;
-
-use Ifera\ScoreHud\event\TagsResolveEvent;
 
 class EventListener implements Listener {
     
@@ -39,9 +37,9 @@ class EventListener implements Listener {
     }
     
     public function onJoin(PlayerJoinEvent $event) : void{
-        Scoreboard::updateTags($event->getPlayer());
         KillFloatingText::updateKillFloatingText();
         DeathFloatingText::updateDeathFloatingText();
+        KillstreakFloatingText::updateKillstreakFloatingText();
     }
     
     public function onDeath(PlayerDeathEvent $event) : void{
@@ -93,47 +91,14 @@ class EventListener implements Listener {
     }
     
     public function onUpdateKill(UpdateKillEvent $event) : void{
-        $name = $event->getName();
-        $player = Server::getInstance()->getPlayerExact($name);
-        
-        if ($player !== null) {
-            Scoreboard::updateTags($player);
-        }
-        
         KillFloatingText::updateKillFloatingText();
     }
     
     public function onUpdateDeath(UpdateDeathEvent $event) : void{
-        $name = $event->getName();
-        $player = Server::getInstance()->getPlayerExact($name);
-        
-        if ($player !== null) {
-            Scoreboard::updateTags($player);
-        }
-        
         DeathFloatingText::updateDeathFloatingText();
     }
     
-    public function onTagsResolve(TagsResolveEvent $event) : void{
-        $player = $event->getPlayer();
-        $tag = $event->getTag();
-        $api = KDR::getInstance();
-        $kills = $api->getKills($player);
-        $deaths = $api->getDeaths($player);
-        $kdr = $api->getKDR($player);
-        
-        switch ($tag->getName()) {
-            case "killdeathratio.kills":
-                $tag->setValue(number_format($kills));
-            break;
-            
-            case "killdeathratio.deaths":
-                $tag->setValue(number_format($deaths));
-            break;
-            
-            case "killdeathratio.kdr":
-                $tag->setValue((string) $kdr);
-            break;
-        }
+    public function onUpdateKillstreak(UpdateKillstreakEvent $event) : void{
+        KillstreakFloatingText::updateKillstreakFloatingText();
     }
 }

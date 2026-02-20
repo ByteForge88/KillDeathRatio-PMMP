@@ -34,11 +34,13 @@ class SeeKDRCommand extends BaseCommand {
         }
         
         $kills = $api->getKills($args["player"]);
+        $kill_streak = $api->getKillstreak($args["player"]);
         $deaths = $api->getDeaths($args["player"]);
         $kdr = $api->getKDR($args["player"]);
         
         $sender->sendMessage("-= " . $args["player"] . " KDR stats =-");
         $sender->sendMessage("kills: " . number_format($kills));
+        $sender->sendMessage("killstreak: " . number_format($kill_streak));
         $sender->sendMessage("deaths: " . number_format($deaths));
         $sender->sendMessage("KDR: " . $kdr);
     }

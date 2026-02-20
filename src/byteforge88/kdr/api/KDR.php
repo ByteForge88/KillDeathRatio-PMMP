@@ -11,6 +11,7 @@ use pocketmine\utils\SingletonTrait;
 use byteforge88\kdr\database\Database;
 
 use byteforge88\kdr\event\UpdateKillEvent;
+use byteforge88\kdr\event\UpdateKillstreakEvent;
 use byteforge88\kdr\event\UpdateDeathEvent;
 
 class KDR {
@@ -86,6 +87,41 @@ class KDR {
         }
     }
     
+    public function addKillstreak(Player|string $player) : void{
+        $player = $player instanceof Player ? $player->getName() : $player;
+        $e = new UpdateKillstreakEvent($player);
+        $stmt = Database::getInstance()->getSQL()->prepare("UPDATE kdr SET killstreak = killstreak + 1 WHERE player = :player;");
+        
+        try {
+            $stmt->bindValue(":player", $player, SQLITE3_TEXT);
+            
+            $result = $stmt->execute();
+            
+            $result->finalize();
+        } finally {
+            $stmt->close();
+            $e->call();
+        }
+    }
+    
+    public function getKillstreak(Player|string $player) : ?int{
+        $player = $player instanceof Player ? $player->getName() : $player;
+        $stmt = Database::getInstance()->getSQL()->prepare("SELECT killstreak FROM kdr WHERE player = :player;");
+        
+        try {
+            $stmt->bindValue(":player", $player, SQLITE3_TEXT);
+            
+            $result = $stmt->execute();
+            $data = $result->fetchArray(SQLITE3_ASSOC);
+            
+            $result->finalize();
+            
+            return $data === false ? null : (int) $data["killstreak"];
+        } finally {
+            $stmt->close();
+        }
+    }
+    
     public function addDeath(Player|string $player) : void{
         $player = $player instanceof Player ? $player->getName() : $player;
         $e = new UpdateDeathEvent($player);
@@ -116,6 +152,8 @@ class KDR {
             $result->finalize();
             
             return $data === false ? null : (int) $data["deaths"];
+        } finally {
+            $stmt->close();
         }
     }
     
@@ -131,7 +169,7 @@ class KDR {
     }
     
     public function getTopKills(int $limit) : array{
-        $stmt = Database::getInstance()->getSQL()->prepare("SELECT player, kills FROM kdr ORDER BY balance DESC LIMIT :limit");
+        $stmt = Database::getInstance()->getSQL()->prepare("SELECT player, kills FROM kdr ORDER BY kills DESC LIMIT :limit");
         
         try {
             $stmt->bindValue(":limit", $limit, SQLITE3_INTEGER);
@@ -154,8 +192,32 @@ class KDR {
         }
     }
     
+    public function getTopKillstreak(int $limit) : array{
+        $stmt = Database::getInstance()->getSQL()->prepare("SELECT player, killstreak FROM kdr ORDER BY killstreak DESC LIMIT :limit");
+        
+        try {
+            $stmt->bindValue(":limit", $limit, SQLITE3_INTEGER);
+            
+            $result = $stmt->execute();
+            $data = [];
+            
+            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                $data[] = [
+                    "player" => $row["player"],
+                    "killstreak" => (int) $row["killstreak"]
+                ];
+            }
+            
+            $result->finalize();
+            
+            return $data;
+        } finally {
+            $stmt->close();
+        }
+    }
+    
     public function getTopDeaths(int $limit) : array{
-        $stmt = Database::getInstance()->getSQL()->prepare("SELECT player, deaths FROM kdr ORDER BY balance DESC LIMIT :limit");
+        $stmt = Database::getInstance()->getSQL()->prepare("SELECT player, deaths FROM kdr ORDER BY deaths DESC LIMIT :limit");
         
         try {
             $stmt->bindValue(":limit", $limit, SQLITE3_INTEGER);

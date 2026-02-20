@@ -26,11 +26,13 @@ class KDRCommand extends BaseCommand {
         
         $api = KDR::getInstance();
         $kills = $api->getKills($sender);
+        $kill_streak = $api->getKillstreak($sender);
         $deaths = $api->getDeaths($sender);
         $kdr = $api->getKDR($Sender);
         
         $sender->sendMessage("-= Your KDR stats =-");
         $sender->sendMessage("kills: " . number_format($kills));
+        $sender->sendMessage("killstreak: " . number_format($kill_streak));
         $sender->sendMessage("deaths: " . number_format($deaths));
         $sender->sendMessage("KDR: " . $kdr);
     }
