@@ -17,6 +17,7 @@ use pocketmine\event\world\WorldUnloadEvent;
 use pocketmine\Server;
 
 use byteforge88\kdr\api\KDR;
+use byteforge88\kdr\utils\Utils;
 use byteforge88\kdr\event\UpdateKillEvent;
 use byteforge88\kdr\event\UpdateKillstreakEvent;
 use byteforge88\kdr\event\UpdateDeathEvent;
@@ -51,6 +52,7 @@ class EventListener implements Listener {
             $damager = $cause->getDamager();
             
             $api->addKill($damager);
+            Utils::checkKillstreak($damager);
         }
         
         $api->addDeath($player);
