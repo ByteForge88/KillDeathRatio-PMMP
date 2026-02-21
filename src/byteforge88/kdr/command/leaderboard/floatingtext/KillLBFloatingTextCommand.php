@@ -41,6 +41,6 @@ class KillLBFloatingTextCommand extends BaseCommand {
     }
     
     public function getPermission() : string{
-        return "killldeathratio.killfloatingtext";
+        return "killdeathratio.killfloatingtext";
     }
 }
