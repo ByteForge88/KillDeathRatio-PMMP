@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace byteforge88\kdr\command\leaderboard;
+
 use pocketmine\command\CommandSender;
 
 use pocketmine\player\Player;
