@@ -38,6 +38,6 @@ class KillstreakLeaderboardCommand extends BaseCommand {
     }
     
     public function getPermission() : string{
-        return "mineconomy.killstreakleaderboard";
+        return "killdeathratio.killstreakleaderboard";
     }
 }
