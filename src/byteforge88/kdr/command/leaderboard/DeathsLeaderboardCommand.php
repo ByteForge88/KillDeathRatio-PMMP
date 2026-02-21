@@ -8,11 +8,11 @@ use pocketmine\command\CommandSender;
 
 use pocketmine\player\Player;
 
-use byteforge88\kdr\api\KDR;
+use byteforge88\kdr\KDR;
 
 use CortexPE\Commando\BaseCommand;
 
-class KillLeaderboard extends BaseCommand {
+class DeathsLeaderboardCommand extends BaseCommand {
     
     protected function prepare() : void{
         $this->setPermission($this->getPermission());
@@ -24,18 +24,17 @@ class KillLeaderboard extends BaseCommand {
             return;
         }
         
-        $top_kills = KDR::getInstance()->getTopKills();
+        $top_deaths = KDR::getInstance()->getTopDeaths();
         $i = 1;
         
-        $sender->sendMessage("-= Top 10 Killer's =-");
+        $sender->sendMessage("-= Top 10 Death's =-");
         
-        foreach ($top_kills as $data) {
-            $sender->sendMessage($i . ". " . $data["player"] . " - " . number_format($data["kills"]) . " kills\n");
-            $i++;
+        foreach ($top_deaths as $data) {
+            $sender->sendMessage($i . ". " . $data["player"] . " - " . number_format($data["deaths"]) . " deaths\n");
         }
     }
     
     public function getPermission() : string{
-        return "killdeathratio.killleaderboard";
+        return "killdeathratio.deathleaderboard";
     }
 }
