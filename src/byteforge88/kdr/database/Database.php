@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace byteforge88\kdr;
+namespace byteforge88\kdr\database;
 
 use SQLite3;
 
