@@ -37,11 +37,12 @@ class KDR {
     
     public function insertIntoDatabase(Player|string $player) : void{
         $player = $player instanceof Player ? $player->getName() : $player;
-        $stmt = Database::getInstance()->getSQL()->prepare("INSERT INTO kdr (player, kills, deaths) VALUES (:player, :kills, :deaths);");
+        $stmt = Database::getInstance()->getSQL()->prepare("INSERT INTO kdr (player, kills, killstreak, deaths) VALUES (:player, :kills, :killstreak, :deaths);");
         
         try {
             $stmt->bindValue(":player", $player, SQLITE3_TEXT);
             $stmt->bindValue(":kills", 0, SQLITE3_INTEGER);
+            $stmt->bindValue(":killstreak", 0, SQLITE3_INTEGER);
             $stmt->bindValue(":deaths", 0, SQLITE3_INTEGER);
             
             $result = $stmt->execute();
